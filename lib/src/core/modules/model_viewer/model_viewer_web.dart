@@ -99,6 +99,9 @@ class ModelViewerState extends State<ModelViewer> {
           modelViewerElement?.addEventListener('error', (dynamic mvEvent) {
             widget.onError?.call(mvEvent.detail['sourceError'].toString());
           });
+          modelViewerElement?.addEventListener('camera-change', (dynamic mvEvent) {
+            widget.onCameraChanged?.call(mvEvent.detail.toString());
+          });
           firstDomLoad = false;
         });
 

@@ -171,4 +171,34 @@ class Flutter3DDatasource implements IFlutter3DDatasource {
     final result = await _webViewController?.evaluateJavascript(source: code);
     return result;
   }
+  
+  @override
+  Future<String> getCameraOrbit() {
+    // TODO: implement getCameraOrbit
+    throw UnimplementedError();
+  }
+  
+  @override
+  Future<String> getCameraTarget() {
+    // TODO: implement getCameraTarget
+    throw UnimplementedError();
+  }
+  
+  @override
+  Future<String> getFieldOfView() {
+    // TODO: implement getCameraTarget
+    throw UnimplementedError();
+  }
+  
+  @override
+  Future executeCustomJsCodeWithObjectResult(String code) async {
+    final result = await _webViewController?.evaluateJavascript(source: code);
+    return result;
+  }
+  
+  @override
+  Future<double> executeCustomJsCodeWithDoubleResult(String code) async {
+    final result = await _webViewController?.evaluateJavascript(source: code);
+    return result;
+  }
 }

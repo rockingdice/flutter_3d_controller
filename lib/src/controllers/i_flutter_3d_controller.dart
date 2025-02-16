@@ -26,12 +26,16 @@ abstract class IFlutter3DController {
   ///It will change camera target
   void setCameraTarget(double x, double y, double z);
 
+  Future<String> getCameraTarget();
+
   /// Causes camera orbit reset to default value
   void resetCameraTarget();
 
   /// It will change camera orbit
   void setCameraOrbit(double theta, double phi, double radius);
 
+  Future<String> getCameraOrbit();
+  Future<String> getFieldOfView();
   /// Causes camera target reset to default value
   void resetCameraOrbit();
 }

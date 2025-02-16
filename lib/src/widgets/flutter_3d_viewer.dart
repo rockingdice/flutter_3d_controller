@@ -7,8 +7,7 @@ import 'package:flutter_3d_controller/src/data/repositories/flutter_3d_repositor
 import 'package:flutter_3d_controller/src/core/modules/model_viewer/model_viewer.dart';
 import 'package:flutter_3d_controller/src/utils/utils.dart';
 import 'package:flutter_inappwebview/flutter_inappwebview.dart';
-import 'package:flutter_3d_controller/src/core/modules/obj_viewer/object.dart'
-    as obj;
+import 'package:flutter_3d_controller/src/core/modules/obj_viewer/object.dart' as obj;
 import 'package:vector_math/vector_math_64.dart' hide Colors;
 
 class Flutter3DViewer extends StatefulWidget {
@@ -45,6 +44,8 @@ class Flutter3DViewer extends StatefulWidget {
   /// and will return string error
   final Function(String error)? onError;
 
+  final Function(String detail)? onCameraChanged;
+
   /// If set to false, the model cannot be controlled by touch,
   /// the default value is true.
   final bool enableTouch;
@@ -54,7 +55,13 @@ class Flutter3DViewer extends StatefulWidget {
 
   /// obj model initial camera values
   final double? scale, cameraX, cameraY, cameraZ;
-
+  final String? cameraOrbit;
+  final String? cameraTarget;
+  final String? fieldOfView;
+  final String? minCameraOrbit;
+  final String? maxCameraOrbit;
+  final String? minFieldOfView;
+  final String? maxFieldOfView;
   const Flutter3DViewer({
     super.key,
     required this.src,
@@ -65,26 +72,33 @@ class Flutter3DViewer extends StatefulWidget {
     this.onProgress,
     this.onLoad,
     this.onError,
+    this.onCameraChanged,
+    this.cameraOrbit,
+    this.cameraTarget,
+    this.fieldOfView,
+    this.minCameraOrbit,
+    this.maxCameraOrbit,
+    this.minFieldOfView,
+    this.maxFieldOfView,
   })  : isObj = false,
         scale = null,
         cameraX = null,
         cameraY = null,
         cameraZ = null;
 
-  const Flutter3DViewer.obj(
-      {super.key,
-      required this.src,
-      this.scale,
-      this.cameraX,
-      this.cameraY,
-      this.cameraZ,
-      this.onProgress,
-      this.onLoad,
-      this.onError})
+  const Flutter3DViewer.obj({super.key, required this.src, this.scale, this.cameraX, this.cameraY, this.cameraZ, this.onProgress, this.onLoad, this.onError})
       : progressBarColor = null,
         controller = null,
         activeGestureInterceptor = true,
         enableTouch = true,
+        onCameraChanged = null,
+        cameraOrbit = null,
+        cameraTarget = null,
+        fieldOfView = null,
+        minCameraOrbit = null,
+        maxCameraOrbit = null,
+        minFieldOfView = null,
+        maxFieldOfView = null,
         isObj = true;
 
   @override
@@ -101,8 +115,7 @@ class _Flutter3DViewerState extends State<Flutter3DViewer> {
     _id = _utils.generateId();
     _controller = widget.controller ?? Flutter3DController();
     if (kIsWeb) {
-      _controller
-          .init(Flutter3DRepository(IFlutter3DDatasource(_id, null, false)));
+      _controller.init(Flutter3DRepository(IFlutter3DDatasource(_id, null, false)));
     }
     super.initState();
   }
@@ -119,8 +132,7 @@ class _Flutter3DViewerState extends State<Flutter3DViewer> {
               scene.camera.target.x = widget.cameraX ?? 0;
               scene.world.add(
                 obj.Object(
-                  scale: Vector3(widget.scale ?? 5.0, widget.scale ?? 5.0,
-                      widget.scale ?? 5.0),
+                  scale: Vector3(widget.scale ?? 5.0, widget.scale ?? 5.0, widget.scale ?? 5.0),
                   fileName: modelName,
                   url: modelUrl,
                   onProgress: widget.onProgress,
@@ -148,6 +160,13 @@ class _Flutter3DViewerState extends State<Flutter3DViewer> {
             debugLogging: false,
             disableTap: true,
             onProgress: widget.onProgress,
+            cameraOrbit: widget.cameraOrbit,
+            cameraTarget: widget.cameraTarget,
+            fieldOfView: widget.fieldOfView,
+            minCameraOrbit: widget.minCameraOrbit,
+            maxCameraOrbit: widget.maxCameraOrbit,
+            minFieldOfView: widget.minFieldOfView,
+            maxFieldOfView: widget.maxFieldOfView,
             onLoad: (modelAddress) {
               _controller.onModelLoaded.value = true;
               widget.onLoad?.call(modelAddress);
@@ -155,6 +174,9 @@ class _Flutter3DViewerState extends State<Flutter3DViewer> {
             onError: (error) {
               _controller.onModelLoaded.value = false;
               widget.onError?.call(error);
+            },
+            onCameraChanged: (detail) {
+              widget.onCameraChanged?.call(detail);
             },
             onWebViewCreated: kIsWeb
                 ? null

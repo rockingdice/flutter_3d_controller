@@ -59,4 +59,18 @@ class Flutter3DRepository extends IFlutter3DRepository {
   void resetCameraOrbit() {
     _datasource.resetCameraOrbit();
   }
+
+  @override
+  Future<String> getCameraOrbit() async {
+    return await _datasource.getCameraOrbit();
+  }
+  @override
+  Future<String> getFieldOfView() async {
+    return await _datasource.getFieldOfView();
+  }
+
+  @override
+  Future<String> getCameraTarget() async {
+    return await _datasource.getCameraTarget();
+  }
 }
