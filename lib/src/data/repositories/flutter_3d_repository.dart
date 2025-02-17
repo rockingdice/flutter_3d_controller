@@ -61,16 +61,20 @@ class Flutter3DRepository extends IFlutter3DRepository {
   }
 
   @override
-  Future<String> getCameraOrbit() async {
+  Future<List<double>> getCameraOrbit() async {
     return await _datasource.getCameraOrbit();
   }
   @override
-  Future<String> getFieldOfView() async {
+  Future<double> getFieldOfView() async {
     return await _datasource.getFieldOfView();
   }
 
   @override
-  Future<String> getCameraTarget() async {
+  Future<List<double>> getCameraTarget() async {
     return await _datasource.getCameraTarget();
+  }
+  @override
+  Future<List<double>> getScreenPosition(double x, double y, double z) async {
+    return await _datasource.getScreenPosition(x, y, z);
   }
 }

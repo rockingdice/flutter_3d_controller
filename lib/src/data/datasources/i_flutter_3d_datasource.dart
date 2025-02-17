@@ -29,7 +29,9 @@ abstract class IFlutter3DDatasource {
   ///It will change camera target
   void setCameraTarget(double x, double y, double z);
 
-  Future<String> getCameraTarget();
+  Future<List<double>> getCameraTarget();
+  
+  Future<List<double>> getScreenPosition(double x, double y, double z);
 
   /// Causes camera orbit reset to default value
   void resetCameraTarget();
@@ -37,9 +39,9 @@ abstract class IFlutter3DDatasource {
   /// It will change camera orbit
   void setCameraOrbit(double theta, double phi, double radius);
 
-  Future<String> getCameraOrbit();
+  Future<List<double>> getCameraOrbit();
 
-  Future<String> getFieldOfView();
+  Future<double> getFieldOfView();
 
   /// Causes camera target reset to default value
   void resetCameraOrbit();

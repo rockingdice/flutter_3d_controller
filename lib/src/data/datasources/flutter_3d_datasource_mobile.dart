@@ -68,8 +68,7 @@ class Flutter3DDatasource implements IFlutter3DDatasource {
       }
       return animations;
     } catch (e) {
-      throw Flutter3dControllerFormatException(
-          message: 'Failed to retrieve animation list, ${e.toString()}');
+      throw Flutter3dControllerFormatException(message: 'Failed to retrieve animation list, ${e.toString()}');
     }
   }
 
@@ -95,8 +94,7 @@ class Flutter3DDatasource implements IFlutter3DDatasource {
       }
       return variants;
     } catch (e) {
-      throw Flutter3dControllerFormatException(
-          message: 'Failed to retrieve texture list, ${e.toString()}');
+      throw Flutter3dControllerFormatException(message: 'Failed to retrieve texture list, ${e.toString()}');
     }
   }
 
@@ -145,10 +143,7 @@ class Flutter3DDatasource implements IFlutter3DDatasource {
   }
 
   @override
-  void executeCustomJsCode(String code,
-      [int codeDelay = 0,
-      int refresherDelay = 0,
-      bool refreshGestureInterceptor = false]) async {
+  void executeCustomJsCode(String code, [int codeDelay = 0, int refresherDelay = 0, bool refreshGestureInterceptor = false]) async {
     await Future.delayed(Duration(milliseconds: codeDelay));
 
     _webViewController?.evaluateJavascript(source: '''
@@ -171,31 +166,37 @@ class Flutter3DDatasource implements IFlutter3DDatasource {
     final result = await _webViewController?.evaluateJavascript(source: code);
     return result;
   }
-  
+
   @override
-  Future<String> getCameraOrbit() {
+  Future<List<double>> getCameraOrbit() {
     // TODO: implement getCameraOrbit
     throw UnimplementedError();
   }
-  
+
   @override
-  Future<String> getCameraTarget() {
+  Future<List<double>> getCameraTarget() {
     // TODO: implement getCameraTarget
     throw UnimplementedError();
   }
-  
+
   @override
-  Future<String> getFieldOfView() {
+  Future<List<double>> getScreenPosition(double x, double y, double z) {
     // TODO: implement getCameraTarget
     throw UnimplementedError();
   }
-  
+
+  @override
+  Future<double> getFieldOfView() {
+    // TODO: implement getCameraTarget
+    throw UnimplementedError();
+  }
+
   @override
   Future executeCustomJsCodeWithObjectResult(String code) async {
     final result = await _webViewController?.evaluateJavascript(source: code);
     return result;
   }
-  
+
   @override
   Future<double> executeCustomJsCodeWithDoubleResult(String code) async {
     final result = await _webViewController?.evaluateJavascript(source: code);

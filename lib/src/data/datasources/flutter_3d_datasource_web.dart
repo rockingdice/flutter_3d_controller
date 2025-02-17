@@ -90,12 +90,20 @@ class Flutter3DDatasource implements IFlutter3DDatasource {
   }
 
   @override
-  Future<String> getCameraTarget() async {
+  Future<List<double>> getCameraTarget() async {
     final result = await executeCustomJsCodeWithObjectResult(
       "const modelViewer = document.getElementById(\"$_viewerId\");"
       "modelViewer.getCameraTarget();",
     );
-    return result.toString();
+    return [result['x'], result['y'], result['z']];
+  }
+  @override
+  Future<List<double>> getScreenPosition(double x, double y, double z) async {
+    final result = await executeCustomJsCodeWithObjectResult(
+      "const modelViewer = document.getElementById(\"$_viewerId\");"
+      "modelViewer.worldToScreen($x, $y, $z);",
+    );
+    return [result['x'], result['y']];
   }
 
   @override
@@ -115,21 +123,21 @@ class Flutter3DDatasource implements IFlutter3DDatasource {
   }
 
   @override
-  Future<String> getCameraOrbit() async {
+  Future<List<double>> getCameraOrbit() async {
     final result = await executeCustomJsCodeWithObjectResult(
       "const modelViewer = document.getElementById(\"$_viewerId\");"
       "modelViewer.getCameraOrbit();",
     );
-    return result.toString();
+    return [result["theta"], result["phi"], result["radius"]];
   }
 
   @override
-  Future<String> getFieldOfView() async {
+  Future<double> getFieldOfView() async {
     final result = await executeCustomJsCodeWithDoubleResult(
       "const modelViewer = document.getElementById(\"$_viewerId\");"
       "modelViewer.getFieldOfView();",
     );
-    return result.toString();
+    return result;
   }
 
   @override
@@ -157,7 +165,7 @@ class Flutter3DDatasource implements IFlutter3DDatasource {
   @override
   Future<dynamic> executeCustomJsCodeWithObjectResult(String code) async {
     final js.JsObject result = await js.context.callMethod("customEvaluateWithResult", [code]);
-    return result.toString();
+    return result;
   }
 
   @override
