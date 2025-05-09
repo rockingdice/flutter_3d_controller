@@ -1,0 +1,17 @@
+{
+  "workbench.colorCustomizations": {
+    "[Default High Contrast Light]": {},
+    "[Tomorrow Night Blue]": {
+      "tab.activeBackground": "#327be9",
+      "tab.inactiveBackground": "#0000ff",
+      "tab.activeBorder": "#ff0000",
+      "tab.unfocusedActiveBorder": "#000000"
+    },
+    "tab.activeBorder": "#ff0000",
+    "tab.unfocusedActiveBorder": "#000000",
+    "activityBar.background": "#0D3049",
+    "titleBar.activeBackground": "#134366",
+    "titleBar.activeForeground": "#F7FBFE"
+  },
+  "dart.flutterSdkPath": ".fvm/versions/3.27.4"
+}

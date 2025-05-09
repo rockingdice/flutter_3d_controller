@@ -69,8 +69,7 @@ class Flutter3DDatasource implements IFlutter3DDatasource {
       );
       return result.map<String>((e) => e.toString()).toList();
     } catch (e) {
-      throw Flutter3dControllerFormatException(
-          message: 'Failed to retrieve animation list, ${e.toString()}');
+      throw Flutter3dControllerFormatException(message: 'Failed to retrieve animation list, ${e.toString()}');
     }
   }
 
@@ -99,6 +98,23 @@ class Flutter3DDatasource implements IFlutter3DDatasource {
   }
 
   @override
+  Future<List<double>> getCameraTarget() async {
+    final result = await executeCustomJsCodeWithObjectResult(
+      "const modelViewer = document.getElementById(\"$_viewerId\");"
+      "modelViewer.getCameraTarget();",
+    );
+    return [result['x'], result['y'], result['z']];
+  }
+  @override
+  Future<List<double>> getScreenPosition(double x, double y, double z) async {
+    final result = await executeCustomJsCodeWithObjectResult(
+      "const modelViewer = document.getElementById(\"$_viewerId\");"
+      "modelViewer.worldToScreen($x, $y, $z);",
+    );
+    return [result['x'], result['y']];
+  }
+
+  @override
   void resetCameraTarget() {
     executeCustomJsCode(
       "const modelViewer = document.getElementById(\"$_viewerId\");"
@@ -112,6 +128,24 @@ class Flutter3DDatasource implements IFlutter3DDatasource {
       "const modelViewer = document.getElementById(\"$_viewerId\");"
       "modelViewer.cameraOrbit = \"${theta}deg ${phi}deg $radius%\";",
     );
+  }
+
+  @override
+  Future<List<double>> getCameraOrbit() async {
+    final result = await executeCustomJsCodeWithObjectResult(
+      "const modelViewer = document.getElementById(\"$_viewerId\");"
+      "modelViewer.getCameraOrbit();",
+    );
+    return [result["theta"], result["phi"], result["radius"]];
+  }
+
+  @override
+  Future<double> getFieldOfView() async {
+    final result = await executeCustomJsCodeWithDoubleResult(
+      "const modelViewer = document.getElementById(\"$_viewerId\");"
+      "modelViewer.getFieldOfView();",
+    );
+    return result;
   }
 
   @override
@@ -132,8 +166,19 @@ class Flutter3DDatasource implements IFlutter3DDatasource {
 
   @override
   Future<dynamic> executeCustomJsCodeWithResult(String code) async {
-    final js.JsArray<dynamic> result =
-        await js.context.callMethod("customEvaluateWithResult", [code]);
+    final js.JsArray<dynamic> result = await js.context.callMethod("customEvaluateWithResult", [code]);
     return result.toList();
+  }
+
+  @override
+  Future<dynamic> executeCustomJsCodeWithObjectResult(String code) async {
+    final js.JsObject result = await js.context.callMethod("customEvaluateWithResult", [code]);
+    return result;
+  }
+
+  @override
+  Future<double> executeCustomJsCodeWithDoubleResult(String code) async {
+    final double result = await js.context.callMethod("customEvaluateWithResult", [code]);
+    return result;
   }
 }

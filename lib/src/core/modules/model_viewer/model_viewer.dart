@@ -1,9 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_inappwebview/flutter_inappwebview.dart';
 
-import 'model_viewer_stub.dart'
-    if (dart.library.io) 'model_viewer_mobile.dart'
-    if (dart.library.js_interop) 'model_viewer_web.dart';
+import 'model_viewer_stub.dart' if (dart.library.io) 'model_viewer_mobile.dart' if (dart.library.js_interop) 'model_viewer_web.dart';
 
 enum Loading { auto, lazy, eager }
 
@@ -93,6 +91,7 @@ class ModelViewer extends StatefulWidget {
     this.onProgress,
     this.onLoad,
     this.onError,
+    this.onCameraChanged,
     super.key,
   });
 
@@ -602,6 +601,8 @@ class ModelViewer extends StatefulWidget {
   /// This callBack will call when model failed to load
   /// and will return string error
   final Function(String error)? onError;
+
+  final Function(String camera)? onCameraChanged;
 
   @override
   State<ModelViewer> createState() => ModelViewerState();

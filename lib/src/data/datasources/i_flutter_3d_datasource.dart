@@ -36,11 +36,19 @@ abstract class IFlutter3DDatasource {
   ///It will change camera target
   void setCameraTarget(double x, double y, double z);
 
+  Future<List<double>> getCameraTarget();
+  
+  Future<List<double>> getScreenPosition(double x, double y, double z);
+
   /// Causes camera orbit reset to default value
   void resetCameraTarget();
 
   /// It will change camera orbit
   void setCameraOrbit(double theta, double phi, double radius);
+
+  Future<List<double>> getCameraOrbit();
+
+  Future<double> getFieldOfView();
 
   /// Causes camera target reset to default value
   void resetCameraOrbit();
@@ -50,10 +58,10 @@ abstract class IFlutter3DDatasource {
 
   ///It will execute custom JS code and returns result
   Future<dynamic> executeCustomJsCodeWithResult(String code);
+  Future<dynamic> executeCustomJsCodeWithObjectResult(String code);
+  Future<double> executeCustomJsCodeWithDoubleResult(String code);
 
   ///It will make specific instance of datasource per platform
-  factory IFlutter3DDatasource(
-          viewerId, webViewController, activeGestureInterceptor) =>
-      Flutter3DDatasource(
-          viewerId, webViewController, activeGestureInterceptor);
+  factory IFlutter3DDatasource(viewerId, webViewController, activeGestureInterceptor) =>
+      Flutter3DDatasource(viewerId, webViewController, activeGestureInterceptor);
 }

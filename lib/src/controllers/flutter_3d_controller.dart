@@ -115,4 +115,38 @@ class Flutter3DController extends IFlutter3DController {
       throw Flutter3dControllerLoadingException();
     }
   }
+
+  @override
+  Future<List<double>> getCameraOrbit() async {
+    if (onModelLoaded.value) {
+      return await _repository?.getCameraOrbit() ?? [0.0, 0.0, 0.0];
+    } else {
+      throw Flutter3dControllerLoadingException();
+    }
+  }
+
+  @override
+  Future<List<double>> getCameraTarget() async {
+    if (onModelLoaded.value) {
+      return await _repository?.getCameraTarget() ?? [0.0, 0.0, 0.0];
+    } else {
+      throw Flutter3dControllerLoadingException();
+    }
+  }
+  @override
+  Future<double> getFieldOfView() async {
+    if (onModelLoaded.value) {
+      return await _repository?.getFieldOfView() ?? 30.0;
+    } else {
+      throw Flutter3dControllerLoadingException();
+    }
+  }
+  @override
+  Future<List<double>> getScreenPosition(double x, double y, double z) async {
+    if (onModelLoaded.value) {
+      return await _repository?.getScreenPosition(x, y, z) ?? [0.0, 0.0];
+    } else {
+      throw Flutter3dControllerLoadingException();
+    }
+  }
 }
